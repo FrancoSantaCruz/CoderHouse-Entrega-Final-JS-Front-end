@@ -4,8 +4,8 @@
     width: 100vw;
     grid-template-columns: 1fr 2fr 3fr 2fr 3fr;
     grid-template-rows: 1fr 2fr 2fr 2fr 0.5fr 3fr 0.5fr;
-    background: linear-gradient(0.25turn, rgb(90, 90, 90), #ebf8e1, rgb(90, 90, 90));
-
+    // background: linear-gradient(0.25turn, rgb(90, 90, 90), #ebf8e1, rgb(90, 90, 90));
+    background: linear-gradient(rgb(90, 90, 90), #ebf8e1);
     & .screen__container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -144,10 +144,17 @@
     }
 
     & .card__container {
-        border: 1px solid black;
-        background-color: silver;
         grid-column: 5/6;
         grid-row: 3/4;
+        & .img.__container{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            & .img.__image{
+                width: 60%;
+            }
+        }
     }
 
     & .moneyDispenser__container {

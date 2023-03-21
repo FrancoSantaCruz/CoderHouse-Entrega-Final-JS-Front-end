@@ -7,7 +7,6 @@ let userForm = document.getElementById("userForm"); //Creación de usuario
 
 //Elementos de la Tercer Página
 let tercerPag = document.getElementById("tercerPag");
-
 let tercerPagText = document.getElementById("text __tercerPag");
 let opAgregar = document.getElementById("agregar");
 let opConsultar = document.getElementById("consultar");
