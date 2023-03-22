@@ -85,7 +85,7 @@ userForm.addEventListener("submit", (e) => {
     userForm.style.display = "none";
 
     let newCardImage = document.createElement("img");
-    newCardImage.setAttribute("src", "./img/empty-card.png");
+    newCardImage.setAttribute("src", "."+"/img/empty-card.png");
     newCardImage.setAttribute("alt", "Card Image");
     newCardImage.setAttribute("class", "img __card mrg__aux");
 
@@ -182,7 +182,7 @@ function operaciones(montoAgregarQuitar) {
             `
 
             let newExtractorDineroImg = document.createElement("img");
-            newExtractorDineroImg.setAttribute("src", "./img/extraccionDinero.png");
+            newExtractorDineroImg.setAttribute("src", "."+"/img/extraccionDinero.png");
             newExtractorDineroImg.setAttribute("alt", "Extractor de Dinero");
             newExtractorDineroImg.setAttribute("class", "img __extractorDinero");
 
