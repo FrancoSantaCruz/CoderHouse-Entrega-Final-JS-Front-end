@@ -139,4 +139,8 @@
   background-color: silver;
   grid-column: 5/6;
   grid-row: 6/7;
+}
+
+.mrg__aux {
+  margin-bottom: 2rem;
 }/*# sourceMappingURL=style.css.map */

@@ -4,6 +4,11 @@ let btnSi = document.getElementById("btn __si"); //Boton Si
 let primerPagText = document.getElementById("text __primerPag"); // Mensaje Primer Página
 let userForm = document.getElementById("userForm"); //Creación de usuario
 
+// Card Section
+let cardImage = document.getElementById("card")
+
+// Extractor Section
+let extractorImage = document.getElementById("extractorDinero")
 
 //Elementos de la Tercer Página
 let tercerPag = document.getElementById("tercerPag");
@@ -78,8 +83,18 @@ userForm.addEventListener("submit", (e) => {
 
     primerPagText.style.display = "none";
     userForm.style.display = "none";
+
+    let newCardImage = document.createElement("img");
+    newCardImage.setAttribute("src", "/img/empty-card.png");
+    newCardImage.setAttribute("alt", "Card Image");
+    newCardImage.setAttribute("class", "img __card mrg__aux");
+
+    let CardContainer = cardImage.parentNode;
+    CardContainer.replaceChild(newCardImage, cardImage);
+
     menu(usuarioLog);
 })
+
 
 cuartaPagForm.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -147,6 +162,7 @@ function operaciones(montoAgregarQuitar) {
             `
             break;
         case "2":
+
             let billetes = retirar(usuarioLog.saldo, montoAgregarQuitar);
             usuarioLog.saldo = usuarioLog.saldo - montoAgregarQuitar;
 
@@ -164,6 +180,14 @@ function operaciones(montoAgregarQuitar) {
             </div>
             <p>¿Desea realizar otra operación?</p>
             `
+
+            let newExtractorDineroImg = document.createElement("img");
+            newExtractorDineroImg.setAttribute("src", "/img/extraccionDinero.png");
+            newExtractorDineroImg.setAttribute("alt", "Extractor de Dinero");
+            newExtractorDineroImg.setAttribute("class", "img __extractorDinero");
+
+            let extractorDineroContainer = extractorImage.parentNode;
+            extractorDineroContainer.replaceChild(newExtractorDineroImg, extractorImage);
             break;
         default:
             alert("Valor incorrecto. Ingrese un valor válido de las opciones.")

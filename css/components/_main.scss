@@ -151,7 +151,7 @@
             height: 100%;
             display: flex;
             justify-content: center;
-            & .img.__image{
+            & .img.__card{
                 width: 60%;
             }
         }
@@ -163,4 +163,8 @@
         grid-column: 5/6;
         grid-row: 6/7;
     }
+}
+
+.mrg__aux {
+    margin-bottom: 2rem;
 }
