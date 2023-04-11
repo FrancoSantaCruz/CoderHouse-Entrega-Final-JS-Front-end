@@ -68,6 +68,31 @@ btnNo.addEventListener("mouseover", (e) => {
 btnSi.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    // ----------------------------------------------
+    const listado = document.getElementById("listado");
+    const pedirDatos = async () => {
+        try {
+            const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+            const data = await response.json();
+
+            data.forEach((publicacion) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+       <h2>${publicacion.title}</h2>
+       <p>${publicacion.body}</p>
+     `;
+
+                listado.append(li);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    pedirDatos();
+    // ----------------------------------------------
+
+
     primerPagText.innerHTML = `
     <p>jaja era chiste, no podes tenerlo, no hay base de datos.</p> 
     <p>Ingresa los datos de tu usuario para probar el simulador:</p>
