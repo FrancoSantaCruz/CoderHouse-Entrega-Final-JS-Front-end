@@ -208,16 +208,16 @@ fetch(url, config);
 // })
 
 const listado = document.getElementById("listado");
-const pedirDatos = async () => {
+const getDatos = async () => {
   try {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    const response = await fetch("./users.json");
     const data = await response.json();
 
-    data.forEach((publicacion) => {
+    data.forEach((usuario) => {
       const li = document.createElement("li");
       li.innerHTML = `
-      <h2>${publicacion.title}</h2>
-      <p>${publicacion.body}</p>
+      <h2>${usuario.nombre}</h2>
+      <p>${usuario.saldo}</p>
     `;
 
       listado.append(li);
@@ -227,4 +227,4 @@ const pedirDatos = async () => {
   }
 };
 
-pedirDatos();    
+getDatos();

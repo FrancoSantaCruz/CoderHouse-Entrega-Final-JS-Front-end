@@ -3,6 +3,9 @@ let btnNo = document.getElementById("btn __no"); //Boton No
 let btnSi = document.getElementById("btn __si"); //Boton Si
 let primerPagText = document.getElementById("text __primerPag"); // Mensaje Primer Página
 let userForm = document.getElementById("userForm"); //Creación de usuario
+let listado = document.getElementById("listado"); //Lista de usuarios ya creados
+let usuarioElegidoForm = document.getElementById("loginForm")
+
 
 // Card Section
 let cardImage = document.getElementById("card")
@@ -65,43 +68,60 @@ btnNo.addEventListener("mouseover", (e) => {
     btnNo.style.transform = "translate(" + randomNumberX + "px," + randomNumberY + "px)";
 })
 
-btnSi.addEventListener("submit", (e) => {
-    e.preventDefault();
+inicio();
+function inicio() {
+    if (usuarioStorage) {
+        btnSi.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-    // ----------------------------------------------
-    const listado = document.getElementById("listado");
-    const pedirDatos = async () => {
-        try {
-            const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-            const data = await response.json();
+            usuarioLog = JSON.parse(usuarioStorage);
 
-            data.forEach((publicacion) => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-       <h2>${publicacion.title}</h2>
-       <p>${publicacion.body}</p>
-     `;
+            let newCardImage = document.createElement("img");
+            newCardImage.setAttribute("src", "." + "/img/empty-card.png");
+            newCardImage.setAttribute("alt", "Card Image");
+            newCardImage.setAttribute("class", "img __card mrg__aux");
 
-                listado.append(li);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
+            let CardContainer = cardImage.parentNode;
+            CardContainer.replaceChild(newCardImage, cardImage);
 
-    pedirDatos();
-    // ----------------------------------------------
+            menu(usuarioLog);
+        })
+    } else {
+
+        listado.style.display = "block"
+        btnSi.addEventListener("submit", (e) => {
+            e.preventDefault();
+            primerPagText.innerHTML = `
+                <p>En caso de no tener una cuenta ya creada, registrate aquí!</p>
+                `
 
 
-    primerPagText.innerHTML = `
-    <p>jaja era chiste, no podes tenerlo, no hay base de datos.</p> 
-    <p>Ingresa los datos de tu usuario para probar el simulador:</p>
-    `
-    btnContainer.style.display = "none";
-    userForm.style.display = "block";
+            const getDatos = async () => {
+                try {
+                    const response = await fetch("./users.json");
+                    const data = await response.json();
 
-})
+                    data.forEach((usuario) => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                        
+                        <a>${usuario.nombre}</a>
+                        <a>${usuario.saldo}</a>
+                        <button type="submit" id="elegirUsuario" value=${usuario.id}>Ingresar</button>
+                    `;
+                        
+                        listado.append(li);
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            };
 
+            getDatos();
+            formularioUsuario();
+        })
+    }
+}
 function createUser(nombre, email, saldo) {
     let id = usuariosList.length + 1;
     let usuario = {
@@ -113,39 +133,71 @@ function createUser(nombre, email, saldo) {
     return usuario
 }
 
-userForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    let inputs = e.target.children;
-    let inp_nombre = inputs[0].value;
-    let inp_email = inputs[1].value;
-    let inp_saldo = inputs[2].value;
-    // usuarioLog = new User(inp_nombre, inp_email, inp_saldo);
+function formularioUsuario() {
+    btnContainer.style.display = "none";
+    userForm.style.display = "block";
+    
+    // let inputs = e.target.children;
+    // let inp_nombre = inputs[0].value;
+    // let inp_email = inputs[1].value;
+    // let inp_saldo = inputs[2].value;
+    usuarioElegidoForm.addEventListener("submit", (e) =>{
 
+        e.preventDefault();
+        // let idUsuarioLog = usuarioElegido.value;
+        console.log(e)
+        
+        const getDatos = async () => {
+            try {
+                const response = await fetch("./users.json");
+                const data = await response.json();
 
-    if (usuarioStorage) {
-        usuarioLog = JSON.parse(usuarioStorage);
-    } else {
+                data.forEach((usuario) => {
+                    if(usuario.id === idUsuarioLog){
+                        return usuario;
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        
+        usuarioLog = getDatos();
+
+        menu(usuarioLog)
+    })
+
+    userForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let inputs = e.target.children;
+        let inp_nombre = inputs[0].value;
+        let inp_email = inputs[1].value;
+        let inp_saldo = inputs[2].value;
+        // usuarioLog = new User(inp_nombre, inp_email, inp_saldo);
+
         let usuario = createUser(inp_nombre, inp_email, inp_saldo)
         localStorage.setItem("user", JSON.stringify(usuario));
         usuariosList.push(usuario);
         console.log(usuariosList)
         usuarioLog = usuario;
         alert(`Bienvenido ${usuario.nombre}`); //Agregar Tostify
-    }
 
-    primerPagText.style.display = "none";
-    userForm.style.display = "none";
 
-    let newCardImage = document.createElement("img");
-    newCardImage.setAttribute("src", "." + "/img/empty-card.png");
-    newCardImage.setAttribute("alt", "Card Image");
-    newCardImage.setAttribute("class", "img __card mrg__aux");
+        primerPagText.style.display = "none";
+        userForm.style.display = "none";
 
-    let CardContainer = cardImage.parentNode;
-    CardContainer.replaceChild(newCardImage, cardImage);
+        let newCardImage = document.createElement("img");
+        newCardImage.setAttribute("src", "." + "/img/empty-card.png");
+        newCardImage.setAttribute("alt", "Card Image");
+        newCardImage.setAttribute("class", "img __card mrg__aux");
 
-    menu(usuarioLog);
-})
+        let CardContainer = cardImage.parentNode;
+        CardContainer.replaceChild(newCardImage, cardImage);
+
+        menu(usuarioLog);
+    })
+
+}
 
 cuartaPagForm.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -164,6 +216,10 @@ btnSalir.addEventListener("submit", (e) => {
 })
 
 function menu(user) {
+    listado.style.display = "none"
+    btnContainer.style.display = "none";
+    primerPagText.style.display = "none";
+    userForm.style.display = "none";
 
     let nombre = user.nombre.charAt(0).toUpperCase() + user.nombre.slice(1);
     tercerPag.style.display = "grid"

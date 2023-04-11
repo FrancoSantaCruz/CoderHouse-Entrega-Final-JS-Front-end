@@ -1,0 +1,20 @@
+[
+    {
+        "id" : 1,
+        "nombre" : "Andres",
+        "correo" : "coderhouse@gmail.com",
+        "saldo" : "100000"
+    },
+    {
+        "id": 2,
+        "nombre" : "Franco",
+        "correo" : "franco@gmail.com",
+        "saldo" : "50000"
+    },
+    {
+        "id": 3,
+        "nombre" : "test",
+        "correo" : "test@gmail.com",
+        "saldo" : "10000"
+    }
+]
