@@ -30,28 +30,32 @@ let btnReiniciar = document.getElementById("btn __reiniciar")
 let btnSalir = document.getElementById("btn __salir")
 
 
-let usuarios = [];
+let usuariosList = [];
 let usuarioLog = "";
 let opcion = 0;
 
-class User {
-    //Aplico el método toLowerCase() para que no haya errores de compatibilidad cuando ingresen nuevamente la cuenta y le erren en las mayusculas y minusculas.
-    constructor(nombre, email, saldo) {
-        this.nombre = nombre.toLowerCase();
-        this.email = email.toLowerCase();
-        this.saldo = saldo;
-        let id = usuarios.length + 1;
-        let usuario = {
-            id: id,
-            nombre: nombre,
-            email: email,
-            saldo: saldo,
-        };
+let user;
+let usuarioStorage = localStorage.getItem("user");
 
-        usuarios.push(usuario)
-        localStorage.setItem('usuarios', JSON.stringify(usuarios))
-    }
-}
+
+// class User {
+//     //Aplico el método toLowerCase() para que no haya errores de compatibilidad cuando ingresen nuevamente la cuenta y le erren en las mayusculas y minusculas.
+//     constructor(nombre, email, saldo) {
+//         this.nombre = nombre.toLowerCase();
+//         this.email = email.toLowerCase();
+//         this.saldo = saldo;
+//         let id = usuariosList.length + 1;
+//         let usuario = {
+//             id: id,
+//             nombre: this.nombre,
+//             email: this.email,
+//             saldo: this.saldo,
+//         };
+
+//         usuariosList.push(usuario)
+//         localStorage.setItem('usuarios', JSON.stringify(usuariosList))
+//     }
+// }
 
 btnNo.addEventListener("mouseover", (e) => {
     e.preventDefault();
@@ -73,19 +77,42 @@ btnSi.addEventListener("submit", (e) => {
 
 })
 
+function createUser(nombre, email, saldo) {
+    let id = usuariosList.length + 1;
+    let usuario = {
+        id: id,
+        nombre: nombre,
+        email: email,
+        saldo: saldo,
+    };
+    return usuario
+}
+
 userForm.addEventListener("submit", (e) => {
     e.preventDefault();
     let inputs = e.target.children;
     let inp_nombre = inputs[0].value;
     let inp_email = inputs[1].value;
     let inp_saldo = inputs[2].value;
-    usuarioLog = new User(inp_nombre, inp_email, inp_saldo);
+    // usuarioLog = new User(inp_nombre, inp_email, inp_saldo);
+
+
+    if (usuarioStorage) {
+        usuarioLog = JSON.parse(usuarioStorage);
+    } else {
+        let usuario = createUser(inp_nombre, inp_email, inp_saldo)
+        localStorage.setItem("user", JSON.stringify(usuario));
+        usuariosList.push(usuario);
+        console.log(usuariosList)
+        usuarioLog = usuario;
+        alert(`Bienvenido ${usuario.nombre}`); //Agregar Tostify
+    }
 
     primerPagText.style.display = "none";
     userForm.style.display = "none";
 
     let newCardImage = document.createElement("img");
-    newCardImage.setAttribute("src", "."+"/img/empty-card.png");
+    newCardImage.setAttribute("src", "." + "/img/empty-card.png");
     newCardImage.setAttribute("alt", "Card Image");
     newCardImage.setAttribute("class", "img __card mrg__aux");
 
@@ -94,7 +121,6 @@ userForm.addEventListener("submit", (e) => {
 
     menu(usuarioLog);
 })
-
 
 cuartaPagForm.addEventListener("submit", (e) => {
     e.preventDefault()
@@ -162,7 +188,6 @@ function operaciones(montoAgregarQuitar) {
             `
             break;
         case "2":
-
             let billetes = retirar(usuarioLog.saldo, montoAgregarQuitar);
             usuarioLog.saldo = usuarioLog.saldo - montoAgregarQuitar;
 
@@ -180,9 +205,8 @@ function operaciones(montoAgregarQuitar) {
             </div>
             <p>¿Desea realizar otra operación?</p>
             `
-
             let newExtractorDineroImg = document.createElement("img");
-            newExtractorDineroImg.setAttribute("src", "."+"/img/extraccionDinero.png");
+            newExtractorDineroImg.setAttribute("src", "." + "/img/extraccionDinero.png");
             newExtractorDineroImg.setAttribute("alt", "Extractor de Dinero");
             newExtractorDineroImg.setAttribute("class", "img __extractorDinero");
 

@@ -115,12 +115,6 @@
   grid-row: 2/5;
   grid-template-rows: 3fr 1fr;
 }
-.ATM__container .keyboard__container {
-  border: 1px solid black;
-  background-color: silver;
-  grid-column: 3/4;
-  grid-row: 6/7;
-}
 .ATM__container .card__container {
   grid-column: 5/6;
   grid-row: 3/4;
@@ -131,12 +125,23 @@
   display: flex;
   justify-content: center;
 }
-.ATM__container .card__container .img.__container .img.__image {
+.ATM__container .card__container .img.__container .img.__card {
   width: 60%;
+}
+.ATM__container .keyboard__container {
+  grid-column: 3/4;
+  grid-row: 6/7;
+  height: auto;
+}
+.ATM__container .keyboard__container img {
+  height: 25rem;
 }
 .ATM__container .moneyDispenser__container {
   border: 1px solid black;
   background-color: silver;
+  align-self: center;
+  height: -moz-fit-content;
+  height: fit-content;
   grid-column: 5/6;
   grid-row: 6/7;
 }
