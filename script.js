@@ -4,8 +4,9 @@ let btnSi = document.getElementById("btn __si"); //Boton Si
 let primerPagText = document.getElementById("text __primerPag"); // Mensaje Primer Página
 let userForm = document.getElementById("userForm"); //Creación de usuario
 let listado = document.getElementById("listado"); //Lista de usuarios ya creados
-let usuarioElegidoForm = document.getElementById("loginForm")
-
+let loginText = document.getElementById("loginText"); //Mensaje para el listado
+let usuarioElegidoForm = document.getElementById("loginForm");
+let reset = document.getElementById("keypad__container"); //Boton para resetear el local storage
 
 // Card Section
 let cardImage = document.getElementById("card")
@@ -60,6 +61,10 @@ let usuarioStorage = localStorage.getItem("user");
 //     }
 // }
 
+reset.addEventListener("click", (e) => {
+    localStorage.clear();
+})
+
 btnNo.addEventListener("mouseover", (e) => {
     e.preventDefault();
 
@@ -88,11 +93,18 @@ function inicio() {
         })
     } else {
 
-        listado.style.display = "block"
+        
         btnSi.addEventListener("submit", (e) => {
             e.preventDefault();
+            
+            console.log("Estoy aca!!")
+            listado.style.display = "block";
+            loginText.style.display = "block";
+            usuarioElegidoForm.style.display = "flex";
+
+
             primerPagText.innerHTML = `
-                <p>En caso de no tener una cuenta ya creada, registrate aquí!</p>
+                <p class="ATM__msg">En caso de no tener una cuenta ya creada, registrate aquí!</p>
                 `
 
 
@@ -105,8 +117,8 @@ function inicio() {
                         const li = document.createElement("li");
                         li.innerHTML = `
                         
-                        <a>${usuario.nombre}</a>
-                        <a>${usuario.saldo}</a>
+                        <a>${usuario.id})${usuario.nombre} </a>
+                        <a>(Saldo disponible: $${usuario.saldo})</a>
                         <button type="submit" id="elegirUsuario" value=${usuario.id}>Ingresar</button>
                     `;
                         
@@ -137,10 +149,6 @@ function formularioUsuario() {
     btnContainer.style.display = "none";
     userForm.style.display = "block";
     
-    // let inputs = e.target.children;
-    // let inp_nombre = inputs[0].value;
-    // let inp_email = inputs[1].value;
-    // let inp_saldo = inputs[2].value;
     usuarioElegidoForm.addEventListener("submit", (e) =>{
 
         e.preventDefault();
@@ -217,6 +225,7 @@ btnSalir.addEventListener("submit", (e) => {
 
 function menu(user) {
     listado.style.display = "none"
+    loginText.style.display = "none"
     btnContainer.style.display = "none";
     primerPagText.style.display = "none";
     userForm.style.display = "none";
